@@ -540,9 +540,9 @@ If you use this code in your research, please cite:
 ```bibtex
 @misc{pwlps2026,
   title        = {PWLPS: Precision-Weighted Local Predictive Settling},
-  author       = {Your Name},
+  author       = {Abdul Mofique Siddiqui},
   year         = {2026},
-  howpublished = {\url{https://github.com/yourusername/pwlps}},
+  howpublished = {\url{https://github.com/Luckyy0311/pwlps}},
   note         = {A forward-only local learning algorithm for deep neural networks}
 }
 ```
