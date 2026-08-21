@@ -566,6 +566,7 @@ $$C \leftarrow C - \eta \nabla_C \mathcal{J} = \begin{bmatrix} 0 \\ 1 \end{bmatr
 |-------|--------------------------------------|
 | Before update | $0.5498$ |
 | After settling | $0.5609$ |
+| After weight update | Higher on next forward pass |
 
 After one local update, the network becomes **more confident about the correct class**. The layer locally adjusted its activity and weights to improve classification — **without any global backward pass**.
 
