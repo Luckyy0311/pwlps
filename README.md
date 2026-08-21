@@ -28,20 +28,20 @@ Unlike standard backpropagation, PWLPS does **not** propagate gradients through 
 
 ---
 
-## ✨ Key Features
+##  Key Features
 
 | Feature | Description |
 |---|---|
-| 🔄 **Forward-only training** | No global backward pass through the full network |
-| 🧠 **Biologically plausible** | Each layer uses only local signals |
-| 💾 **Memory-efficient** | Does not store the full computation graph across layers |
-| 🎯 **Local classifier heads** | Every layer gets its own supervised signal |
-| ⚖️ **Precision weighting** | Adaptive confidence per layer (fixed or learned) |
-| 🏗️ **Architecture-agnostic** | Works with MLPs, CNNs, Transformers, RNNs, and more |
+|  **Forward-only training** | No global backward pass through the full network |
+|  **Biologically plausible** | Each layer uses only local signals |
+|  **Memory-efficient** | Does not store the full computation graph across layers |
+|  **Local classifier heads** | Every layer gets its own supervised signal |
+|  **Precision weighting** | Adaptive confidence per layer (fixed or learned) |
+|  **Architecture-agnostic** | Works with MLPs, CNNs, Transformers, RNNs, and more |
 
 ---
 
-## 🧠 How It Works (Intuition)
+##  How It Works (Intuition)
 
 ### Standard Backpropagation — "Global Blame"
 
@@ -86,7 +86,7 @@ For each layer, PWLPS alternates between:
 
 ---
 
-## 🧮 Mathematical Formulation
+##  Mathematical Formulation
 
 ### 1. Problem Setup
 
@@ -316,7 +316,7 @@ The time overhead from settling steps ($T$) is the trade-off for memory efficien
 
 ---
 
-## 📜 Full Algorithm
+##  Full Algorithm
 
 ```
 Algorithm 1: Precision-Weighted Local Predictive Settling (PWLPS)
@@ -368,7 +368,7 @@ end for
 
 ---
 
-## 🔢 Solved Numerical Example
+##  Solved Numerical Example
 
 A complete single-step walkthrough on a **one-layer toy network**.
 
@@ -473,136 +473,7 @@ $$C \leftarrow [0,\ 1]^T - 0.1 \cdot [0.1976,\ {-0.1976}]^T = [{-0.0198},\ 1.019
 
 After one local update, the network becomes more confident about the correct class — **without any global backward pass**.
 
----
 
-## 🚀 Installation
-
-### From PyPI
-
-```bash
-pip install pwlps
-```
-
-### From Source
-
-```bash
-git clone https://github.com/yourusername/pwlps.git
-cd pwlps
-pip install -e .
-```
-
-### Requirements
-
-```
-torch>=2.0.0
-```
-
----
-
-## 💡 Usage
-
-### Basic MLP Example
-
-```python
-import torch
-from pwlps import LocalPredictiveMLP
-
-# 1. Define the model
-model = LocalPredictiveMLP(
-    input_dim=784,
-    hidden_dim=512,
-    num_classes=10,
-    num_layers=4,
-    learn_precision=True,
-)
-
-# 2. Create one optimizer per layer
-optimizers = [
-    torch.optim.Adam(layer.parameters(), lr=1e-3)
-    for layer in model.layers
-]
-
-# 3. Training step
-x = torch.randn(128, 784)
-y = torch.randint(0, 10, (128,))
-
-loss = model.local_train_step(
-    x=x,
-    y=y,
-    optimizers=optimizers,
-    T=5,             # settling steps
-    step_size=0.05,  # settling learning rate
-    cls_weight=1.0,  # classification loss weight
-)
-
-# 4. Inference
-with torch.no_grad():
-    logits = model(x)
-    preds = logits.argmax(dim=1)
-```
-
-### Architecture-Agnostic Example (Universal Wrapper)
-
-PWLPS works with **any differentiable block**, not just MLPs.
-
-```python
-import torch
-import torch.nn as nn
-from pwlps import build_local_sequential
-
-# CNN example
-blocks = [
-    nn.Sequential(nn.Conv2d(1, 32, 3), nn.ReLU(), nn.MaxPool2d(2)),
-    nn.Sequential(nn.Conv2d(32, 64, 3), nn.ReLU(), nn.MaxPool2d(2)),
-    nn.Sequential(nn.Flatten(), nn.Linear(64 * 5 * 5, 256), nn.ReLU()),
-]
-
-model = build_local_sequential(
-    blocks=blocks,
-    num_classes=10,
-    sample_input=torch.randn(2, 1, 28, 28),
-    pool_types=["mean_spatial", "mean_spatial", "identity"],
-    learn_precision=True,
-)
-
-optimizers = [
-    torch.optim.Adam(block.parameters(), lr=1e-3)
-    for block in model.blocks
-]
-
-x = torch.randn(128, 1, 28, 28)
-y = torch.randint(0, 10, (128,))
-
-loss = model.local_train_step(x=x, y=y, optimizers=optimizers, T=3)
-```
-
-### Hyperparameter Reference
-
-| Parameter | Symbol | Default | Description |
-|---|---|---|---|
-| Settling steps | $T$ | `5` | Local inference iterations per layer |
-| Settling step size | $\gamma$ | `0.05` | Learning rate for activity settling |
-| Classification weight | $\lambda$ | `1.0` | Weight of local classification loss |
-| Fixed precision | $\pi_0$ | `1.0` | Precision value / regularization target |
-| Precision regularization | $\rho$ | `0.01` | Keeps learned precision stable |
-| Weight learning rate | $\eta$ | `0.001` | Optimizer learning rate |
-
----
-
-## 🔬 Methodology
-
-### Research Question
-
-> Can a deep neural network be trained using local, forward-only predictive settling with precision weighting, achieving competitive accuracy while reducing activation memory compared to standard backpropagation?
-
-### Hypotheses
-
-| # | Hypothesis |
-|---|---|
-| H1 | A network trained with local predictive settling can learn useful representations from scratch. |
-| H2 | Predictive settling improves accuracy compared to layer-wise local classification alone ($T > 0$ vs $T = 0$). |
-| H3 | Learned precision improves stability or accuracy compared to fixed precision. |
-| H4 | The local method has slower memory growth with depth than backpropagation. |
 
 ### Experimental Setup
 
@@ -647,7 +518,7 @@ python main.py --method local --epochs 3 --num-layers 16 --hidden-dim 512 --T 5
 
 ---
 
-## 📊 Experimental Results
+##  Experimental Results
 
 ### 16-Layer Network (3 epochs)
 
@@ -666,7 +537,7 @@ The memory advantage **grows with depth**, and local classifier heads help deep 
 
 
 
-## 📖 Citation
+##  Citation
 
 If you use this code in your research, please cite:
 
@@ -682,13 +553,13 @@ If you use this code in your research, please cite:
 
 ---
 
-## 📄 License
+##  License
 
 This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 This project draws inspiration from:
 
