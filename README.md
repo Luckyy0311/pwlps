@@ -649,19 +649,6 @@ python main.py --method local --epochs 3 --num-layers 16 --hidden-dim 512 --T 5
 
 ## 📊 Experimental Results
 
-### 4-Layer Network (5 epochs)
-
-| Method | Parameters | Final Test Acc | Best Test Acc | Peak Memory | Time/Epoch |
-|---|---|---|---|---|---|
-| Backprop | 1,195,018 | 97.54% | 97.66% | 41.12 MB | 14.87 s |
-| Local Fixed Precision | 1,210,408 | 97.50% | 97.55% | 38.35 MB | 30.30 s |
-| Local Learned Precision | 1,210,412 | 97.52% | 97.83% | 38.36 MB | 29.25 s |
-
-**Key findings:**
-- Local method matches backpropagation accuracy (within 0.04%)
-- Memory reduction: **(41.12 − 38.35) / 41.12 × 100 ≈ 6.74%**
-- Time overhead: **≈ 2.04×** (expected due to settling steps)
-
 ### 16-Layer Network (3 epochs)
 
 | Method | Parameters | Test Acc | Peak Memory | Time/Epoch |
@@ -677,30 +664,7 @@ The memory advantage **grows with depth**, and local classifier heads help deep 
 
 ---
 
-## 📁 Repository Structure
 
-```
-pwlps/
-├── pyproject.toml          # Build & packaging config
-├── README.md               # This file
-├── LICENSE                 # MIT License
-│
-├── pwlps/
-│   ├── __init__.py         # Package exports
-│   ├── core.py             # MLP implementation
-│   └── universal.py        # Architecture-agnostic implementation
-│
-├── main.py                 # Experiment runner
-│
-├── examples/
-│   ├── mnist_mlp.py        # MLP example
-│   └── mnist_cnn.py        # CNN example
-│
-└── notebooks/
-    └── ResearchPro.ipynb   # Colab experiment notebook
-```
-
----
 
 ## 📖 Citation
 
