@@ -18,11 +18,7 @@ Unlike standard backpropagation, PWLPS does **not** propagate gradients through 
 - [Mathematical Formulation](#-mathematical-formulation)
 - [Full Algorithm](#-full-algorithm)
 - [Solved Numerical Example](#-solved-numerical-example)
-- [Installation](#-installation)
-- [Usage](#-usage)
-- [Methodology](#-methodology)
 - [Experimental Results](#-experimental-results)
-- [Repository Structure](#-repository-structure)
 - [Citation](#-citation)
 - [License](#-license)
 
