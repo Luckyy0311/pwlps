@@ -153,11 +153,11 @@ $$u_l = C_l h_l, \qquad p_l = \text{softmax}(u_l), \qquad \ell_l(h_l) = \mathcal
 
 The core idea of predictive coding is that a layer minimizes a **local prediction error**:
 
-$$E_l(h_l) = \frac{\pi_l}{2} \left\| h_l - \hat{a}_l \right\|^2 + \lambda \, \ell_l(h_l)$$
+$$E_l(h_l) = \frac{\pi_l}{2} \left\| h_l - \hat{a}_l \right\|^2 + \lambda \ell_l(h_l)$$
 
-Substituting $\hat{a}_l = \phi(W_l a_{l-1})$:
+Substituting $\hat{a}\_l = \phi(W\_l a\_{l-1})$:
 
-$$E_l(h_l) = \frac{\pi_l}{2} \left\| h_l - \phi(W_l a_{l-1}) \right\|^2 + \lambda \, \mathcal{L}_{CE}(C_l h_l, y)$$
+$$E_l(h_l) = \frac{\pi_l}{2} \left\| h_l - \phi(W_l a_{l-1}) \right\|^2 + \lambda \mathcal{L}_{CE}(C_l h_l, y)$$
 
 where $\pi_l$ is the precision (confidence weight), $\lambda$ is the classification loss weight, $h_l$ is the layer activity during settling, and $\hat{a}_l$ is the feedforward prediction.
 
@@ -217,7 +217,7 @@ where $\text{sg}[\cdot]$ denotes stop-gradient.
 
 $$\mathcal{J}_l = \mathcal{J}_l^{pred} + \lambda \mathcal{J}_l^{cls} + \lambda \mathcal{J}_l^{settled} + \mathcal{R}_l^{\pi}$$
 
-**(a) Predictive matching loss** — where $\tilde{\pi}_l = \text{sg}[\pi_l]$ and $a_l = \phi(W_l a_{l-1})$:
+**(a) Predictive matching loss — where $\tilde{\pi}\_l = \text{sg}[\pi\_l]$ and $a\_l = \phi(W\_l a\_{l-1})$:**
 
 $$\mathcal{J}_l^{pred} = \frac{\tilde{\pi}_l}{2} \left\| h_l^* - a_l \right\|^2$$
 
@@ -265,7 +265,9 @@ For current feedforward activity:
 
 $$\frac{\partial \mathcal{J}_l^{cls}}{\partial C_l} = r_l a_l^T$$
 
-For settled activity, let $p_l^* = \text{softmax}(C_l h_l^*)$ and $r_l^* = p_l^* - e_y$:
+For settled activity, let
+
+$$p_l^{\ast} = \text{softmax}(C_l h_l^{\ast}) \quad \text{and} \quad r_l^{\ast} = p_l^{\ast} - e_y$$
 
 $$\frac{\partial \mathcal{J}_l^{settled}}{\partial C_l} = r_l^* (h_l^*)^T$$
 
